@@ -6,6 +6,20 @@ from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericRelation
+
+from django.contrib.auth import get_user_model
+user_model = get_user_model()
+
+def author_details(author):
+    if not isinstance(author, user_model):
+        # return empty string as safe default
+        return ""
+    if author.first_name and author.last_name:
+        name = f"{author.first_name} {author.last_name}"
+    else:
+        name = f"{author.username}"
+    return name
+
 # other imports ommited
 class Comment(models.Model):
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
