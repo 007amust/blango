@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load blog_extras %}
+{% block content %}
+
+{% row %}
+    {% col %}
+        {% recent_posts post %}
+    {% endcol %}
+{% endrow %}
+
+<h2>Blog Posts</h2>
+{% for post in posts %}
+{% row %}
+<div class="col">
+<h3>{{ post.title }}</h3>
+{% include "blog/post-byline.html" %}
+<p>{{ post.summary }}</p>
+<p>
+({{ post.content|wordcount }} words)
+<a href="{% url "blog-post-detail" post.slug
+%}">Read More</a>
+</p>
+</div>
+{% endrow %}
+{% endfor %}
+{% endblock %}
