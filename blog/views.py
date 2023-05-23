@@ -15,7 +15,13 @@ from blog.forms import CommentForm
 import logging
 logger = logging.getLogger(__name__)
 
-logger.info('sam in views with django')
+#logger.info('sam in views with django')
+
+def get_ip(request):
+  from django.http import HttpResponse
+  return HttpResponse(request.META['REMOTE_ADDR'])
+
+
 def post_detail(request, slug):
     if request.user.is_active:
         if request.method == "POST":
@@ -48,6 +54,9 @@ def post_detail_02(request, slug):
 
 def index(request):
     posts = Post.objects.filter(published_at__lte=timezone.now())
+    #posts = Post.objects.filter(published_at__lte=timezone.now()).select_related("author")
+    #posts = Post.objects.filter(published_at__lte=timezone.now()).select_related("author")
+
     logger.debug("Got %d posts", len(posts))
 
     return render(request, "blog/index.html", {"posts": posts})
